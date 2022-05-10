@@ -1,21 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, Dimensions, StyleSheet, View } from 'react-native';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import CardScreen from './app/screen/CardScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const App = () => (
+  <View style={styles.container}>
+    <SwiperFlatList>
+      <CardScreen />
+      <CardScreen />
+      <CardScreen />
+    </SwiperFlatList>
+  </View>
+);
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: { flex: 1, backgroundColor: 'white' },
+  child: { width, justifyContent: 'center' },
+  text: { fontSize: width * 0.5, textAlign: 'center' },
 });
+
+export default App;
