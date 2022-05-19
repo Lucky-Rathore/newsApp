@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
             console.log('setting language = true')
             setLanguage(true)
         }
-        setTimeout(() => { setHomeScreen(false) }, 1000);
+        setTimeout(() => { setHomeScreen(false) }, 3000);
     }, []);
     const onLanguageSelect = (lang) => {
         httpGet(uri + lang)
@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
                         <View style={styles.main}>
                             <Text style={styles.text}>Choose Language</Text>
                             <View style={styles.buttonContainer}>
-                                <Button fontSize={35} onPress={() => {
+                                <Button onPress={() => {
                                     onLanguageSelect(1)
                                 }} title="English" />
                                 <Button onPress={() => onLanguageSelect(2)} title="Hindi" />
@@ -70,8 +70,8 @@ const HomeScreen = ({ navigation }) => {
 
 const getLanguage = async () => {
     try {
-        const value = await AsyncStorage.getItem('PreferredLanguage')
-        console.log('PreferredLanguage: ' + value)
+        const value = await AsyncStorage.getItem('@PreferredLanguage')
+        console.log('@PreferredLanguage: ' + value)
         return value
     } catch (e) {
         console.log(e)
@@ -80,7 +80,7 @@ const getLanguage = async () => {
 
 const storeLanguage = async (value) => {
     try {
-        await AsyncStorage.setItem('PreferredLanguage', value)
+        await AsyncStorage.setItem('@PreferredLanguage', value)
     } catch (e) {
         console.log(e)
     }
