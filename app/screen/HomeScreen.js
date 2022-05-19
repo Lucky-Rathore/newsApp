@@ -7,12 +7,12 @@ import LanguageScreen from './LanguageScreen';
 import LogoScreen from './LogoScreen';
 import CardSwiperScreen from './CardSwiperScreen';
 
-function HomeScreen({ navigation }) {
-    const uri = 'https://gsx2json.com/api?id=1FzaS26naSpUcp4qxnriU-ibfPjLA9Ox8J5WL0TNxxT4&sheet=Sheet1';
+const HomeScreen = ({ navigation }) => {
+    const uri = 'https://gsx2json.com/api?id=1FzaS26naSpUcp4qxnriU-ibfPjLA9Ox8J5WL0TNxxT4&sheet=Sheet';
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [isHomeScreen, setHomeScreen] = useState(true);
-    const [language, setLanguage] = useState(null);
+    const [language, setLanguage] = useState(false);
     const httpGet = async (uri) => {
         try {
             const response = await fetch(uri);
@@ -24,18 +24,43 @@ function HomeScreen({ navigation }) {
             setLoading(false);
         }
     }
+    var lang = null;
+    getLanguage().then((resp) => { lang = resp; })
     useEffect(() => {
-        setTimeout(() => { setHomeScreen(false) }, 2000);
-        setTimeout(() => { httpGet(uri) }, 0);
+        console.log('lang: ' + lang)
+        console.log('!lang = ' + !lang)
+        if (lang) {
+            setTimeout(() => { httpGet(uri + lang) }, 0);
+            console.log('setting language = true')
+            setLanguage(true)
+        }
+        setTimeout(() => { setHomeScreen(false) }, 1000);
     }, []);
-
+    const onLanguageSelect = (lang) => {
+        httpGet(uri + lang)
+        storeLanguage(lang)
+        setLanguage(lang)
+    };
+    console.log(data)
     return (
         <View style={styles.mainContainer} >
             {isHomeScreen ? <LogoScreen /> :
                 (
-                    language == null ? (<LanguageScreen navigation={navigation} />) : (
+                    !language ? (
+                        <View style={styles.main}>
+                            <Text style={styles.text}>Choose Language</Text>
+                            <View style={styles.buttonContainer}>
+                                <Button fontSize={35} onPress={() => {
+                                    onLanguageSelect(1)
+                                }} title="English" />
+                                <Button onPress={() => onLanguageSelect(2)} title="Hindi" />
+                                <Button onPress={() => onLanguageSelect(3)} title="Hindi and English" />
+                            </View>
+                        </View>) : (
                         <View style={styles.mainContainer}>
-                            {isLoading ? <ActivityIndicator size="large" /> : <CardSwiperScreen />}
+                            {isLoading ?
+                                <ActivityIndicator size="large" /> :
+                                <CardSwiperScreen data={data} />}
                         </View>
                     )
                 )}
@@ -46,6 +71,8 @@ function HomeScreen({ navigation }) {
 const getLanguage = async () => {
     try {
         const value = await AsyncStorage.getItem('PreferredLanguage')
+        console.log('PreferredLanguage: ' + value)
+        return value
     } catch (e) {
         console.log(e)
     }
@@ -65,6 +92,18 @@ const styles = StyleSheet.create({
         flex: .25,
         justifyContent: 'space-evenly',
         left: 20
+    },
+    main: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flex: .4,
+        justifyContent: 'space-evenly',
+        margin: 20
+    },
+    text: {
+        fontSize: 30,
+        margin: 20
     }
 })
 

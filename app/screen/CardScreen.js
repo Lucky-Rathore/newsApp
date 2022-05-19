@@ -27,15 +27,14 @@ const styles = StyleSheet.create({
         width
     },
     image: {
-        flex: .35,
+        flex: .5,
     },
     text: {
         fontSize: 25,
-
         borderRadius: 30
     },
     textContainer: {
-        flex: .65,
+        flex: .5,
 
         padding: 20
     }
