@@ -1,4 +1,4 @@
-package com.newsappp;
+package com.newssapp;
 
 import android.os.Build;
 import android.os.Bundle;
