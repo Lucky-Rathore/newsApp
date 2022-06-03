@@ -1,20 +1,29 @@
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, Linking, WebView } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import HTMLView from 'react-native-htmlview';
+
 
 function CardScreen(props) {
-
+    const _handlePressButtonAsync = async (url) => {
+        let result = await WebBrowser.openBrowserAsync(props.item.url);
+        setResult(result);
+    };
     return (
         <View style={styles.container}>
             <Image
-                resizeMode='contain'
+                resizeMode='stretch'
                 fadeDuration={3}
                 borderRadius={3}
                 style={styles.image}
                 source={{
-                    uri: props.uri
+                    uri: props.item.imageurl + '?h=400&w=700'
                 }}
             />
             <View style={styles.textContainer}>
-                <Text adjustsFontSizeToFit style={styles.text}>{props.text}</Text>
+                <HTMLView value={'<p>' + props.item.name1 + '<br/><br/>' + props.item.desc1 + '</p>'} stylesheet={styles.text} />
+            </View>
+            <View style={styles.readMoreContainer}>
+                <Text style={styles.readMoreText} onPress={_handlePressButtonAsync}>read more at {props.item.providername}</Text>
             </View>
         </View >
     );
@@ -27,16 +36,29 @@ const styles = StyleSheet.create({
         width
     },
     image: {
-        flex: .5,
+        flex: 4
     },
     text: {
-        fontSize: 25,
+        p: { fontSize: 20, top: 10 },
+
+        top: 20,
+        fontSize: 20,
         borderRadius: 30
     },
     textContainer: {
-        flex: .5,
-
-        padding: 20
+        flex: 5,
+        padding: 10
+    },
+    readMoreContainer: {
+        flex: 1,
+        top: 10,
+        left: 10,
+        fontSize: 25,
+        alignSelf: "baseline"
+    },
+    readMoreText: {
+        color: "grey",
+        fontSize: 20
     }
 })
 

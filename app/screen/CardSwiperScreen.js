@@ -5,18 +5,10 @@ import CardScreen from "./CardScreen";
 
 class CardSwiperScreen extends React.Component {
     render() {
-        return (<SwiperFlatList
-            data={this.props.data}
-            style={styles.swiper}
-            renderItem={({ item }) => (
-                <CardScreen uri={item.imageUri} text={item.text} />
-            )}
-        />);
+        return (<SwiperFlatList data={this.props.data}
+            renderItem={({ item }) => (<CardScreen item={item} />)} />
+        );
     }
 }
-
-const styles = StyleSheet.create({
-
-});
 
 export default CardSwiperScreen;

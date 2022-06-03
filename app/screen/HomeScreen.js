@@ -1,14 +1,11 @@
 import { StyleSheet, ImageBackground, ActivityIndicator, View, Button, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import CardScreen from './CardScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LanguageScreen from './LanguageScreen';
 import LogoScreen from './LogoScreen';
 import CardSwiperScreen from './CardSwiperScreen';
 
 const HomeScreen = ({ navigation }) => {
-    const uri = 'https://gsx2json.com/api?id=1FzaS26naSpUcp4qxnriU-ibfPjLA9Ox8J5WL0TNxxT4&sheet=Sheet';
+    const uri = 'https://iv3mlq3sq7byakz76eleojzor40bbhme.lambda-url.ap-south-1.on.aws/?lang=';
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [isHomeScreen, setHomeScreen] = useState(true);
@@ -17,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
         try {
             const response = await fetch(uri);
             const json = await response.json();
-            setData(json.rows);
+            setData(json);
         } catch (error) {
             console.error(error);
         } finally {
