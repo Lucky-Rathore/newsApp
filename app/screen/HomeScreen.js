@@ -24,42 +24,19 @@ const HomeScreen = ({ navigation }) => {
     var lang = null;
     getLanguage().then((resp) => { lang = resp; })
     useEffect(() => {
-        console.log('lang: ' + lang)
-        console.log('!lang = ' + !lang)
-        if (lang) {
-            setTimeout(() => { httpGet(uri + lang) }, 0);
-            console.log('setting language = true')
-            setLanguage(true)
-        }
+        setTimeout(() => { httpGet(uri + 1) }, 0);
         setTimeout(() => { setHomeScreen(false) }, 3000);
     }, []);
-    const onLanguageSelect = (lang) => {
-        httpGet(uri + lang)
-        storeLanguage(lang)
-        setLanguage(lang)
-    };
     console.log(data)
     return (
         <View style={styles.mainContainer} >
             {isHomeScreen ? <LogoScreen /> :
                 (
-                    !language ? (
-                        <View style={styles.main}>
-                            <Text style={styles.text}>Choose Language</Text>
-                            <View style={styles.buttonContainer}>
-                                <Button onPress={() => {
-                                    onLanguageSelect(1)
-                                }} title="English" />
-                                <Button onPress={() => onLanguageSelect(2)} title="Hindi" />
-                                <Button onPress={() => onLanguageSelect(3)} title="Hindi and English" />
-                            </View>
-                        </View>) : (
-                        <View style={styles.mainContainer}>
-                            {isLoading ?
-                                <ActivityIndicator size="large" /> :
-                                <CardSwiperScreen data={data} />}
-                        </View>
-                    )
+                    <View style={styles.mainContainer}>
+                        {isLoading ?
+                            <ActivityIndicator size="large" /> :
+                            <CardSwiperScreen data={data} />}
+                    </View>
                 )}
         </View>
     );
